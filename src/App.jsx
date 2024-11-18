@@ -1,34 +1,20 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from './redux/contactsSlice';
+// src/App.jsx
+
 import ContactForm from './components/ContactsForm/ContactsForm';
 import ContactList from './components/ContactList/ContactList';
 import SearchBox from './components/SearchBox/SearchBox';
-import './App.module.css';
+import styles from './App.module.css';
 
-function App() {
-  const dispatch = useDispatch();
-  const { items, loading, error } = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filters.name);
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-
-  const filteredContacts = items.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
+const App = () => {
   return (
-    <div>
-      <h1>Contact Book</h1>
+    <div className={styles.container}>
+      <h1>Phonebook</h1>
       <ContactForm />
+      <h2>Contacts</h2>
       <SearchBox />
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      <ContactList contacts={filteredContacts} />
+      <ContactList />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,27 +1,47 @@
-import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsSlice';
+// src/components/ContactsForm/ContactsForm.jsx
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from '../../redux/contactsOps';
+import { selectContacts } from '../../redux/contactsSlice';
+import { nanoid } from 'nanoid';
 import styles from './ContactsForm.module.css';
 
-function ContactForm() {
+const ContactsForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = e.target.name.value.trim();
-    const number = e.target.number.value.trim();
-    if (name && number) {
-      dispatch(addContact({ id: Date.now().toString(), name, number }));
-      e.target.reset();
+    if (contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase())) {
+      alert(`${name} is already in contacts.`);
+      return;
     }
+    dispatch(addContact({ id: nanoid(), name, number }));
+    setName('');
+    setNumber('');
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <input className={styles.input} type="text" name="name" placeholder="Name" required />
-      <input className={styles.input} type="text" name="number" placeholder="Phone Number" required />
-      <button className={styles.button} type="submit">Add Contact</button>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        type="tel"
+        placeholder="Phone number"
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
+        required
+      />
+      <button type="submit">Add Contact</button>
     </form>
   );
-}
+};
 
-export default ContactForm;
+export default ContactsForm;

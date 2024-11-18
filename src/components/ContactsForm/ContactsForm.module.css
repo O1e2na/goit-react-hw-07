@@ -1,0 +1,26 @@
+/* src/components/ContactsForm/ContactsForm.module.css */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.input {
+    padding: 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+}
+
+.button {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.button:hover {
+    background-color: #388e3c;
+}
